@@ -139,3 +139,21 @@
 
   &:hover { background: #f8f9fa; }
 }
+
+::ng-deep .custom-pulse-marker {
+  .pulse {
+    width: 15px;
+    height: 15px;
+    background: #007bff;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+    animation: pulse-animation 2s infinite;
+  }
+}
+
+@keyframes pulse-animation {
+  0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 123, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+}

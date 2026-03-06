@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NotificationService } from './core/services/notification/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,5 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'wifi-cdmx-app';
+  protected readonly notifService = inject(NotificationService);
 }

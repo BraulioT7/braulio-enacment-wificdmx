@@ -1,1 +1,7 @@
 <router-outlet></router-outlet>
+
+@if (notifService.message(); as msg) {
+  <div class="toast-notification">
+    {{ msg }}
+  </div>
+}

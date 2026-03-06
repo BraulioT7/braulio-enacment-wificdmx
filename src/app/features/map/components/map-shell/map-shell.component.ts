@@ -7,7 +7,7 @@ import { MapFiltersComponent } from '../map-filters/map-filters.component';
 import { LocationService } from '../../../../core/services/location/location.service';
 import { FavoritesService } from '../../../../core/services/favorites/favorites.service';
 import { MapFavoritesSidebarComponent } from '../map-favorites-sidebar/map-favorites-sidebar.component';
-import { Signal } from '@angular/core';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-map-shell',
@@ -23,6 +23,7 @@ export class MapShellComponent  implements AfterViewInit{
   private readonly destroyRef = inject(DestroyRef); // Destrucción automática de suscripciones
   private readonly locationService = inject(LocationService);
   private readonly favoritesService = inject(FavoritesService);
+  private readonly notifService = inject(NotificationService);
 
   private map!: L.Map;
   private markerGroup!: L.LayerGroup;
@@ -138,6 +139,16 @@ export class MapShellComponent  implements AfterViewInit{
 
       this.markerGroup.clearLayers(); // Se limpia el mapa antes de redibujar
       points.forEach(point => {
+        const isTop = (point.score || 0) > 85;
+
+        const markerOptions: L.MarkerOptions = {};
+        if (isTop) {
+          markerOptions.icon = L.divIcon({
+            className: 'custom-pulse-marker',
+            html: `<div class="pulse"></div>`,
+            iconSize: [20, 20]
+          });
+        }
 
         //Si ya el score se calculó, se renderiza
         const scoreHtml = point.score !== undefined ? `<br><b>Distancia:</b> ${point.score} km` : '';
@@ -163,6 +174,8 @@ export class MapShellComponent  implements AfterViewInit{
 
   toggleFavorite(point: WifiPoint): void {
     this.favoritesService.toggleFavorite(point);
+    const isFav = this.favoritesService.isFavorite(point.id);
+    this.notifService.show(isFav ? '⭐ Agregado a favoritos' : '🗑️ Eliminado de favoritos');
   }
 
   isFavorite(id: string): boolean {
