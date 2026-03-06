@@ -32,12 +32,24 @@
         </div>
       }
 
-      <button 
-        class="map-detail-card__fav-btn" 
-        [class.is-fav]="isFavorite(point.id)"
-        (click)="toggleFavorite(point)">
-        {{ isFavorite(point.id) ? '★ Quitar Favorito' : '☆ Guardar Favorito' }}
-      </button>
+      <div class="fav-action-container">
+        @if (!showConfirmDelete()) {
+          <button 
+            class="map-detail-card__fav-btn" 
+            [class.is-fav]="isFavorite(point.id)"
+            (click)="toggleFavorite(point)">
+            {{ isFavorite(point.id) ? '★ Quitar Favorito' : '☆ Guardar Favorito' }}
+          </button>
+        } @else {
+          <div class="confirm-box">
+            <p class="confirm-box__text">¿Seguro que quieres quitarlo?</p>
+            <div class="confirm-box__actions">
+              <button class="btn-confirm" (click)="confirmRemoval(point)">Sí, quitar</button>
+              <button class="btn-cancel" (click)="cancelRemoval()">No</button>
+            </div>
+          </div>
+        }
+      </div>
     </div>
   }
 
@@ -47,5 +59,7 @@
       (focusPoint)="flyToPoint($event)">
     </app-map-favorites-sidebar>
   }
+
+  
   
 </section>

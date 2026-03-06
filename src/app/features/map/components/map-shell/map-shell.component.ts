@@ -31,6 +31,7 @@ export class MapShellComponent  implements AfterViewInit{
 
   selectedPoint = signal<WifiPoint | null>(null);
   favorites = this.favoritesService.favorites;
+  showConfirmDelete = signal<boolean>(false);
 
   private allWifiPoints: WifiPoint[] = [];
   availableAlcaldias = signal<string[]>([]);
@@ -173,9 +174,26 @@ export class MapShellComponent  implements AfterViewInit{
   }
 
   toggleFavorite(point: WifiPoint): void {
-    this.favoritesService.toggleFavorite(point);
     const isFav = this.favoritesService.isFavorite(point.id);
-    this.notifService.show(isFav ? '⭐ Agregado a favoritos' : '🗑️ Eliminado de favoritos');
+
+    if (isFav) {
+      // Si ya es favorito, pedimos confirmación mostrando el estado
+      this.showConfirmDelete.set(true);
+    } else {
+      // Si no es favorito, lo agregamos directamente
+      this.favoritesService.toggleFavorite(point);
+      this.notifService.show('⭐ Agregado a favoritos');
+    }
+  }
+
+  confirmRemoval(point: WifiPoint): void {
+    this.favoritesService.toggleFavorite(point);
+    this.showConfirmDelete.set(false);
+    this.notifService.show('🗑️ Eliminado de favoritos');
+  }
+
+  cancelRemoval(): void {
+    this.showConfirmDelete.set(false);
   }
 
   isFavorite(id: string): boolean {

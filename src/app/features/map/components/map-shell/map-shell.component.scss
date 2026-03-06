@@ -157,3 +157,36 @@
   70% { box-shadow: 0 0 0 15px rgba(0, 123, 255, 0); }
   100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
 }
+
+.confirm-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(217, 83, 79, 0.1);
+  border-radius: var(--radius-md);
+  text-align: center;
+  border: 1px solid rgba(217, 83, 79, 0.2);
+
+  p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #d9534f;
+    margin-bottom: 0.75rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-confirm { background: #d9534f; color: white; }
+    .btn-cancel { background: #eee; color: #333; }
+  }
+}
