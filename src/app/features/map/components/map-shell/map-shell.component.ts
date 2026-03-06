@@ -5,6 +5,7 @@ import { WifiPoint } from '../../../../shared/models/wifi-point.model';
 import * as L from 'leaflet';
 import { MapFiltersComponent } from '../map-filters/map-filters.component';
 import { LocationService } from '../../../../core/services/location/location.service';
+import { FavoritesService } from '../../../../core/services/favorites/favorites.service';
 
 @Component({
   selector: 'app-map-shell',
@@ -19,10 +20,14 @@ export class MapShellComponent  implements AfterViewInit{
   private readonly zone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef); // Destrucción automática de suscripciones
   private readonly locationService = inject(LocationService);
+  private readonly favoritesService = inject(FavoritesService);
 
   private map!: L.Map;
   private markerGroup!: L.LayerGroup;
   private currentFilter = 'ALL'; // Rastro de filtros
+
+  selectedPoint = signal<WifiPoint | null>(null);
+  favorites = this.favoritesService.favorites;
 
   private allWifiPoints: WifiPoint[] = [];
   availableAlcaldias = signal<string[]>([]);
@@ -128,11 +133,31 @@ export class MapShellComponent  implements AfterViewInit{
         //Si ya el score se calculó, se renderiza
         const scoreHtml = point.score !== undefined ? `<br><b>Distancia:</b> ${point.score} km` : '';
 
-        L.marker([point.latitud, point.longitud])
-          .bindPopup(`<b>Programa:</b> ${point.programa}<br><b>Alcaldía:</b> ${point.alcaldia}${scoreHtml}`)
+        const marker = L.marker([point.latitud, point.longitud])
+          // Cambio de bindPopup por un evento de clic limpio.
+          .on('click', () => {
+             // Actualziar UI reactiva
+             this.zone.run(() => {
+               this.selectedPoint.set(point);
+             });
+          })
           .addTo(this.markerGroup);
       });
     });
+  }
+  
+  // Métodos para la tarjeta de detalle
+
+  closeDetail(): void {
+    this.selectedPoint.set(null);
+  }
+
+  toggleFavorite(point: WifiPoint): void {
+    this.favoritesService.toggleFavorite(point);
+  }
+
+  isFavorite(id: string): boolean {
+    return this.favoritesService.isFavorite(id);
   }
 }
 

@@ -9,4 +9,23 @@
   </button>
 
   <div id="wifi-map" class="map-view__container"></div>
+
+  @if (selectedPoint(); as point) {
+    <div class="map-detail-card">
+      <button class="map-detail-card__close" (click)="closeDetail()">✕</button>
+      <h3 class="map-detail-card__title">{{ point.programa }}</h3>
+      <p class="map-detail-card__info"><b>Alcaldía:</b> {{ point.alcaldia }}</p>
+      
+      @if (point.score !== undefined) {
+        <p class="map-detail-card__info"><b>A:</b> {{ point.score }} km de ti</p>
+      }
+
+      <button 
+        class="map-detail-card__fav-btn" 
+        [class.is-fav]="isFavorite(point.id)"
+        (click)="toggleFavorite(point)">
+        {{ isFavorite(point.id) ? '★ Quitar Favorito' : '☆ Guardar Favorito' }}
+      </button>
+    </div>
+  }
 </section>
