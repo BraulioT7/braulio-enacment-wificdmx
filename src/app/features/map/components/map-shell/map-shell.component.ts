@@ -6,11 +6,13 @@ import * as L from 'leaflet';
 import { MapFiltersComponent } from '../map-filters/map-filters.component';
 import { LocationService } from '../../../../core/services/location/location.service';
 import { FavoritesService } from '../../../../core/services/favorites/favorites.service';
+import { MapFavoritesSidebarComponent } from '../map-favorites-sidebar/map-favorites-sidebar.component';
+import { Signal } from '@angular/core';
 
 @Component({
   selector: 'app-map-shell',
   standalone: true,
-  imports: [MapFiltersComponent],
+  imports: [MapFiltersComponent, MapFavoritesSidebarComponent],
   templateUrl: './map-shell.component.html',
   styleUrl: './map-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -31,6 +33,8 @@ export class MapShellComponent  implements AfterViewInit{
 
   private allWifiPoints: WifiPoint[] = [];
   availableAlcaldias = signal<string[]>([]);
+
+  isSidebarOpen = signal<boolean>(false);
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -163,6 +167,15 @@ export class MapShellComponent  implements AfterViewInit{
 
   isFavorite(id: string): boolean {
     return this.favoritesService.isFavorite(id);
+  }
+
+  // Botón
+  flyToPoint(point: WifiPoint): void {
+    this.zone.runOutsideAngular(() => {
+      this.map.flyTo([point.latitud, point.longitud], 16);
+    });
+    this.selectedPoint.set(point); // Abre la tarjeta de detalle
+    this.isSidebarOpen.set(false); // Cierra el sidebar para ver el mapa
   }
 }
 

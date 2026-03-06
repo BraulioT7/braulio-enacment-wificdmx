@@ -102,3 +102,40 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.score-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #eee;
+  font-weight: bold;
+  
+  &.high-score {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+}
+
+.map-detail-card__score-box {
+  margin: 10px 0;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #0056b3;
+}
+
+.map-view__fav-toggle {
+  position: absolute;
+  top: 90px;
+  left: 10px;
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  background: white;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+  &:hover { background: #f8f9fa; }
+}

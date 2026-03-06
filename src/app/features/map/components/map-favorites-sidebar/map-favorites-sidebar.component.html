@@ -1,0 +1,29 @@
+<div class="sidebar">
+  <div class="sidebar__header">
+    <h2 class="sidebar__title">Mis Favoritos</h2>
+    <button class="sidebar__close" (click)="closeSidebar.emit()">✕</button>
+  </div>
+
+  <div class="sidebar__content">
+    @if (favorites().length === 0) {
+      <div class="sidebar__empty">
+        <p>Aún no tienes lugares favoritos guardados.</p>
+        <p>Explora el mapa y guarda los que más te interesen.</p>
+      </div>
+    } @else {
+      <ul class="sidebar__list">
+        @for (point of favorites(); track point.id) {
+          <li class="sidebar__item" (click)="onSelectPoint(point)">
+            <div class="sidebar__item-data">
+              <h4 class="sidebar__item-title">{{ point.programa }}</h4>
+              <p class="sidebar__item-meta">{{ point.alcaldia }}</p>
+            </div>
+            <button class="sidebar__item-delete" (click)="removeFavorite(point, $event)" title="Eliminar">
+              🗑️
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

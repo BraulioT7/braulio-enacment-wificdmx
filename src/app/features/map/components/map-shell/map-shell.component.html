@@ -8,6 +8,10 @@
      Encontrar cercanos a mí
   </button>
 
+  <button class="map-view__fav-toggle" (click)="isSidebarOpen.set(true)">
+    Mis Favoritos
+  </button>
+
   <div id="wifi-map" class="map-view__container"></div>
 
   @if (selectedPoint(); as point) {
@@ -36,4 +40,12 @@
       </button>
     </div>
   }
+
+  @if (isSidebarOpen()) {
+    <app-map-favorites-sidebar 
+      (closeSidebar)="isSidebarOpen.set(false)"
+      (focusPoint)="flyToPoint($event)">
+    </app-map-favorites-sidebar>
+  }
+  
 </section>
