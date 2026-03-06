@@ -1,0 +1,12 @@
+<div class="map-filter">
+  <label for="alcaldia-select" class="map-filter__label">Filtrar por Alcaldía:</label>
+  <select 
+    id="alcaldia-select" 
+    class="map-filter__select" 
+    (change)="onSelect($event)">
+    <option value="ALL">Todas las alcaldías</option>
+    @for (alcaldia of alcaldias(); track alcaldia) {
+      <option [value]="alcaldia">{{ alcaldia }}</option>
+    }
+  </select>
+</div>

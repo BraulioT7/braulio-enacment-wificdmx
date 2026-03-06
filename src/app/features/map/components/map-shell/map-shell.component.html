@@ -1,3 +1,8 @@
 <section class="map-view">
+  <app-map-filters 
+    [alcaldias]="availableAlcaldias()" 
+    (filterChanged)="onFilterChanged($event)">
+  </app-map-filters>
+
   <div id="wifi-map" class="map-view__container"></div>
 </section>

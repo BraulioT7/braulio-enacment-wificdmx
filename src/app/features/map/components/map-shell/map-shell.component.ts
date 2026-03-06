@@ -1,13 +1,14 @@
-import { Component, ChangeDetectionStrategy, inject, OnInit, NgZone, DestroyRef, AfterViewInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit, NgZone, DestroyRef, AfterViewInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WifiService } from '../../../../core/services/wifi/wifi.service';
 import { WifiPoint } from '../../../../shared/models/wifi-point.model';
 import * as L from 'leaflet';
+import { MapFiltersComponent } from '../map-filters/map-filters.component';
 
 @Component({
   selector: 'app-map-shell',
   standalone: true,
-  imports: [],
+  imports: [MapFiltersComponent],
   templateUrl: './map-shell.component.html',
   styleUrl: './map-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -18,6 +19,10 @@ export class MapShellComponent  implements AfterViewInit{
   private readonly destroyRef = inject(DestroyRef); // Destrucción automática de suscripciones
 
   private map!: L.Map;
+  private markerGroup!: L.LayerGroup;
+
+  private allWifiPoints: WifiPoint[] = [];
+  availableAlcaldias = signal<string[]>([]);
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -33,6 +38,9 @@ export class MapShellComponent  implements AfterViewInit{
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
       }).addTo(this.map);
+
+      // Inicializamos el grupo de capas y lo añadimos al mapa
+      this.markerGroup = L.layerGroup().addTo(this.map);
     });
   }
 
@@ -40,19 +48,38 @@ export class MapShellComponent  implements AfterViewInit{
     this.wifiService.getWifiPoints()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        // TypeScript inferirá automáticamente que 'points' es WifiPoint[] gracias al servicio
-        next: (points) => this.renderMarkers(points),
+        next: (points: WifiPoint[]) => {
+          this.allWifiPoints = points;
+          this.extractAlcaldias(points);
+          this.renderMarkers(points);
+        },
         error: (err) => console.error('Error al cargar puntos Wi-Fi', err)
       });
+  }
+
+  private extractAlcaldias(points: WifiPoint[]): void {
+    const uniqueAlcaldias = Array.from(new Set(points.map(p => p.alcaldia))).sort();
+    this.availableAlcaldias.set(uniqueAlcaldias);
+  }
+
+  onFilterChanged(selectedAlcaldia: string): void {
+    if (selectedAlcaldia === 'ALL') {
+      this.renderMarkers(this.allWifiPoints);
+    } else {
+      const filtered = this.allWifiPoints.filter(p => p.alcaldia === selectedAlcaldia);
+      this.renderMarkers(filtered);
+    }
   }
 
   private renderMarkers(points: WifiPoint[]): void {
     // Dibujar marcadores también fuera de la zona de Angular para máximo rendimiento
     this.zone.runOutsideAngular(() => {
+
+      this.markerGroup.clearLayers(); // Se limpia el mapa antes de redibujar
       points.forEach(point => {
         L.marker([point.latitud, point.longitud])
           .bindPopup(`<b>Programa:</b> ${point.programa}<br><b>Alcaldía:</b> ${point.alcaldia}`)
-          .addTo(this.map);
+          .addTo(this.markerGroup);
       });
     });
   }
