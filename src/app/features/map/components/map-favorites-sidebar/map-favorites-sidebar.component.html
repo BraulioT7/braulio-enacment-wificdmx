@@ -13,14 +13,27 @@
     } @else {
       <ul class="sidebar__list">
         @for (point of favorites(); track point.id) {
-          <li class="sidebar__item" (click)="onSelectPoint(point)">
-            <div class="sidebar__item-data">
-              <h4 class="sidebar__item-title">{{ point.programa }}</h4>
-              <p class="sidebar__item-meta">{{ point.alcaldia }}</p>
-            </div>
-            <button class="sidebar__item-delete" (click)="removeFavorite(point, $event)" title="Eliminar">
-              🗑️
-            </button>
+          <li class="sidebar__item" 
+              [class.is-confirming]="pendingDeleteId() === point.id"
+              (click)="onSelectPoint(point)">
+            
+            @if (pendingDeleteId() !== point.id) {
+              <div class="sidebar__item-data">
+                <h4 class="sidebar__item-title">{{ point.programa }}</h4>
+                <p class="sidebar__item-meta">{{ point.alcaldia }}</p>
+              </div>
+              <button class="sidebar__item-delete" (click)="requestDelete(point.id, $event)">
+                🗑️
+              </button>
+            } @else {
+              <div class="sidebar__confirm-zone">
+                <span class="sidebar__confirm-text">¿Eliminar?</span>
+                <div class="sidebar__confirm-actions">
+                  <button class="btn-yes" (click)="confirmDelete(point, $event)">Sí</button>
+                  <button class="btn-no" (click)="cancelDelete($event)">No</button>
+                </div>
+              </div>
+            }
           </li>
         }
       </ul>
