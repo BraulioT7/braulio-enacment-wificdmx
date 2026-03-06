@@ -1,0 +1,107 @@
+[
+  {
+    "id": "1",
+    "programa": "Transporte público",
+    "latitud": 19.432608,
+    "longitud": -99.133209,
+    "alcaldia": "Cuauhtémoc"
+  },
+  {
+    "id": "2",
+    "programa": "Mi calle",
+    "latitud": 19.427025,
+    "longitud": -99.167665,
+    "alcaldia": "Cuauhtémoc"
+  },
+  {
+    "id": "3",
+    "programa": "Parque público",
+    "latitud": 19.349942,
+    "longitud": -99.162624,
+    "alcaldia": "Coyoacán"
+  },
+  {
+    "id": "4",
+    "programa": "Poste WiFi",
+    "latitud": 19.393859,
+    "longitud": -99.174312,
+    "alcaldia": "Benito Juárez"
+  },
+  {
+    "id": "5",
+    "programa": "PILARES",
+    "latitud": 19.420400,
+    "longitud": -99.181800,
+    "alcaldia": "Miguel Hidalgo"
+  },
+  {
+    "id": "6",
+    "programa": "Transporte público",
+    "latitud": 19.359200,
+    "longitud": -99.093100,
+    "alcaldia": "Iztapalapa"
+  },
+  {
+    "id": "7",
+    "programa": "Mi calle",
+    "latitud": 19.288200,
+    "longitud": -99.168300,
+    "alcaldia": "Tlalpan"
+  },
+  {
+    "id": "8",
+    "programa": "Poste WiFi",
+    "latitud": 19.419400,
+    "longitud": -99.112800,
+    "alcaldia": "Venustiano Carranza"
+  },
+  {
+    "id": "9",
+    "programa": "Parque público",
+    "latitud": 19.482700,
+    "longitud": -99.114700,
+    "alcaldia": "Gustavo A. Madero"
+  },
+  {
+    "id": "10",
+    "programa": "PILARES",
+    "latitud": 19.482600,
+    "longitud": -99.186600,
+    "alcaldia": "Azcapotzalco"
+  },
+  {
+    "id": "11",
+    "programa": "Poste WiFi",
+    "latitud": 19.434300,
+    "longitud": -99.141300,
+    "alcaldia": "Cuauhtémoc"
+  },
+  {
+    "id": "12",
+    "programa": "Parque público",
+    "latitud": 19.373200,
+    "longitud": -99.159300,
+    "alcaldia": "Benito Juárez"
+  },
+  {
+    "id": "13",
+    "programa": "Mi calle",
+    "latitud": 19.432100,
+    "longitud": -99.193400,
+    "alcaldia": "Miguel Hidalgo"
+  },
+  {
+    "id": "14",
+    "programa": "PILARES",
+    "latitud": 19.314700,
+    "longitud": -99.146200,
+    "alcaldia": "Coyoacán"
+  },
+  {
+    "id": "15",
+    "programa": "Poste WiFi",
+    "latitud": 19.256800,
+    "longitud": -99.102300,
+    "alcaldia": "Xochimilco"
+  }
+]
