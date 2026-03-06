@@ -40,3 +40,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Ignorar configuraciones con llaves reales
+src/environments/environment.ts
+src/environments/environment.development.ts
+
+dist/
+.firebase/
