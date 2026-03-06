@@ -4,5 +4,9 @@
     (filterChanged)="onFilterChanged($event)">
   </app-map-filters>
 
+  <button class="map-view__locate-btn" (click)="findNearest()">
+     Encontrar cercanos a mí
+  </button>
+
   <div id="wifi-map" class="map-view__container"></div>
 </section>
