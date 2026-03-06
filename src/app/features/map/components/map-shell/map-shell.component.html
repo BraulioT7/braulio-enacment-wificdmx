@@ -17,7 +17,15 @@
       <p class="map-detail-card__info"><b>Alcaldía:</b> {{ point.alcaldia }}</p>
       
       @if (point.score !== undefined) {
-        <p class="map-detail-card__info"><b>A:</b> {{ point.score }} km de ti</p>
+        <div class="map-detail-card__score-box">
+          <p class="map-detail-card__info"><b>Distancia:</b> {{ point.distanciaKm }} km</p>
+          <p class="map-detail-card__info">
+            <b>Score de Proximidad:</b> 
+            <span class="score-badge" [class.high-score]="point.score > 70">
+              {{ point.score }}/100
+            </span>
+          </p>
+        </div>
       }
 
       <button 

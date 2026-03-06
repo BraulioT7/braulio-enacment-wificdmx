@@ -93,14 +93,19 @@ export class MapShellComponent  implements AfterViewInit{
             this.map.flyTo([coords.latitude, coords.longitude], 13);
           });
 
-          // 2. Calcular el score (distancia en km) para TODOS los puntos
-          this.allWifiPoints = this.allWifiPoints.map(point => ({
-            ...point,
-            score: this.locationService.calculateDistance(
+          // 2. Calcular distancia y score para TODOS los puntos
+          this.allWifiPoints = this.allWifiPoints.map(point => {
+            const dist = this.locationService.calculateDistance(
               coords.latitude, coords.longitude, 
               point.latitud, point.longitud
-            )
-          }));
+            );
+            
+            return {
+              ...point,
+              distanciaKm: dist,
+              score: this.locationService.calculateScore(dist)
+            };
+          });
 
           // 3. Redibujar respetando el filtro que el usuario tenga activo
           this.applyCurrentState();

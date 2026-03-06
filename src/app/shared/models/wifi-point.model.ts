@@ -4,6 +4,7 @@ export interface WifiPoint {
   latitud: number;
   longitud: number;
   alcaldia: string;
+  distanciaKm?: number; // Distancia
   score?: number; // Calculado por heurística
 }
 

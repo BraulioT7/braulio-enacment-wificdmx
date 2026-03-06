@@ -41,6 +41,18 @@ export class LocationService {
     return Math.round((R * c) * 100) / 100;
   }
 
+  /**
+   * Transforma una distancia en kilómetros en un score de 0 a 100.
+   * Asume un radio de utilidad máximo de 5km en la ciudad.
+   */
+  calculateScore(distanceKm: number): number {
+    const MAX_RADIUS = 5; 
+    if (distanceKm >= MAX_RADIUS) return 0;
+    
+    // Regla de tres inversa: a menor distancia, mayor score
+    return Math.round(100 - ((distanceKm / MAX_RADIUS) * 100));
+  }
+
   private deg2rad(deg: number): number {
     return deg * (Math.PI / 180);
   }
